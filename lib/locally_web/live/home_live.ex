@@ -1,7 +1,6 @@
 defmodule LocallyWeb.HomeLive do
   use LocallyWeb, :live_view
 
-
   def mount(_params, _session, socket) do
     if connected?(socket) do
     end
