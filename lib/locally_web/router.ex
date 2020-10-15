@@ -57,6 +57,12 @@ defmodule LocallyWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     live "/", HomeLive
+    live "/stores", StoreLive.Index, :index
+    live "/stores/new", StoreLive.Index, :new
+    live "/stores/:id/edit", StoreLive.Index, :edit
+
+    live "/stores/:id", StoreLive.Show, :show
+    live "/stores/:id/show/edit", StoreLive.Show, :edit
 
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings/update_password", UserSettingsController, :update_password

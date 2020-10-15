@@ -1,0 +1,39 @@
+<h1>Listing Stores</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal @socket, LocallyWeb.StoreLive.FormComponent,
+    id: @store.id || :new,
+    title: @page_title,
+    action: @live_action,
+    store: @store,
+    return_to: Routes.store_index_path(@socket, :index) %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Postal code</th>
+      <th>Postal direction</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="stores">
+    <%= for store <- @stores do %>
+      <tr id="store-<%= store.id %>">
+        <td><%= store.name %></td>
+        <td><%= store.postal_code %></td>
+        <td><%= store.postal_direction %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.store_show_path(@socket, :show, store) %></span>
+          <span><%= live_patch "Edit", to: Routes.store_index_path(@socket, :edit, store) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: store.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Store", to: Routes.store_index_path(@socket, :new) %></span>
