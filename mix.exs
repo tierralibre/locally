@@ -20,7 +20,7 @@ defmodule Locally.MixProject do
   def application do
     [
       mod: {Locally.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :erm]
     ]
   end
 
@@ -50,7 +50,8 @@ defmodule Locally.MixProject do
       {:faker, "~> 0.14.0"},
       {:number, "~> 1.0"},
       {:phx_gen_auth, "~> 0.5"},
-      {:pbkdf2_elixir, "~> 1.0"}
+      {:pbkdf2_elixir, "~> 1.0"},
+      {:erm, path: "../erm"}
     ]
   end
 
