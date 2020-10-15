@@ -8,7 +8,8 @@
 use Mix.Config
 
 config :locally,
-  ecto_repos: [Locally.Repo]
+  ecto_repos: [Locally.Repo],
+  generators: [binary_id: true]
 
 # Configures the endpoint
 config :locally, LocallyWeb.Endpoint,
