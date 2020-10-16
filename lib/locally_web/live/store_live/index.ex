@@ -7,11 +7,13 @@ defmodule LocallyWeb.StoreLive.Index do
 
   @impl true
   def mount(_params, %{"user_token" => user_token}, socket) do
+    user = Accounts.get_user_by_session_token(user_token)
+
     {
       :ok,
       socket
-      |> assign(:stores, list_stores())
-      |> assign(:current_user, Accounts.get_user_by_session_token(user_token))
+      |> assign(:stores, list_stores(user.id))
+      |> assign(:current_user, user)
     }
   end
 
@@ -43,10 +45,10 @@ defmodule LocallyWeb.StoreLive.Index do
     store = Market.get_store!(id)
     {:ok, _} = Market.delete_store(store)
 
-    {:noreply, assign(socket, :stores, list_stores())}
+    {:noreply, assign(socket, :stores, list_stores(socket.assigns.current_user.id))}
   end
 
-  defp list_stores do
-    Market.list_stores()
+  defp list_stores(owner_id) do
+    Market.list_stores([{"owner_id", owner_id}])
   end
 end

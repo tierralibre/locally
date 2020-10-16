@@ -19,8 +19,8 @@ defmodule Locally.Market do
       [%Store{}, ...]
 
   """
-  def list_stores do
-    ApplicationManager.list_entities(@app_name, :store)
+  def list_stores(fields \\ []) do
+    ApplicationManager.list_entities(@app_name, :store, fields)
     |> Enum.map(&Store.to_store(&1))
   end
 
