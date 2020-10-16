@@ -8,14 +8,14 @@ defmodule Locally.MarketTest do
     alias Erm.Boundary.ApplicationManager
 
     @valid_attrs %{
-      name: "some name",
-      postal_code: "some postal_code",
-      postal_direction: "some postal_direction"
+      "name" => "some name",
+      "postal_code" => "some postal_code",
+      "postal_direction" => "some postal_direction"
     }
     @update_attrs %{
-      name: "some updated name",
-      postal_code: "some updated postal_code",
-      postal_direction: "some updated postal_direction"
+      "name" => "some updated name",
+      "postal_code" => "some updated postal_code",
+      "postal_direction" => "some updated postal_direction"
     }
     @invalid_attrs %{name: nil, postal_code: nil, postal_direction: nil}
     @app_name "Locally"
