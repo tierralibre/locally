@@ -5,7 +5,7 @@ defmodule Locally.Market.Store do
   @primary_key false
 
   embedded_schema do
-    field :uuid, :string
+    field :id, :string
     field :name, :string
     field :postal_code, :string
     field :postal_direction, :string
@@ -20,6 +20,6 @@ defmodule Locally.Market.Store do
   end
 
   def to_store(data, uuid) do
-    struct(__MODULE__, Map.put(data, :uuid, uuid))
+    struct(__MODULE__, Map.put(data, :id, uuid))
   end
 end

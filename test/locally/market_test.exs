@@ -38,7 +38,7 @@ defmodule Locally.MarketTest do
 
     test "get_store!/1 returns the store with given id" do
       store = store_fixture()
-      assert Market.get_store!(store.uuid) == store
+      assert Market.get_store!(store.id) == store
     end
 
     test "create_store/1 with valid data creates a store" do
@@ -63,13 +63,13 @@ defmodule Locally.MarketTest do
     test "update_store/2 with invalid data returns error changeset" do
       store = store_fixture()
       assert {:error, %Ecto.Changeset{}} = Market.update_store(store, @invalid_attrs)
-      assert store == Market.get_store!(store.uuid)
+      assert store == Market.get_store!(store.id)
     end
 
     test "delete_store/1 deletes the store" do
       store = store_fixture()
       assert {:ok, %Store{}} = Market.delete_store(store)
-      assert_raise RuntimeError, fn -> Market.get_store!(store.uuid) end
+      assert_raise RuntimeError, fn -> Market.get_store!(store.id) end
     end
 
     test "change_store/1 returns a store changeset" do

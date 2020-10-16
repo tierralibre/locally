@@ -87,7 +87,7 @@ defmodule Locally.Market do
 
     if cs.valid? do
       %{entity: entity} =
-        ApplicationManager.run_action(@app_name, :update_store, %{uuid: store.uuid, data: attrs})
+        ApplicationManager.run_action(@app_name, :update_store, %{uuid: store.id, data: attrs})
 
       {:ok, Store.to_store(entity.data, entity.uuid)}
     else
@@ -109,7 +109,7 @@ defmodule Locally.Market do
   """
   def delete_store(%Store{} = store) do
     %{entity: entity} =
-      ApplicationManager.run_action(@app_name, :remove_store, %{uuid: store.uuid})
+      ApplicationManager.run_action(@app_name, :remove_store, %{uuid: store.id})
 
     {:ok, Store.to_store(entity.data, entity.uuid)}
   end
