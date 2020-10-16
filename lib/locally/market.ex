@@ -21,7 +21,7 @@ defmodule Locally.Market do
   """
   def list_stores do
     ApplicationManager.list_entities(@app_name, :store)
-    |> Enum.map(&Store.to_store(&1.data, &1.uuid))
+    |> Enum.map(&Store.to_store(&1))
   end
 
   @doc """
@@ -41,7 +41,7 @@ defmodule Locally.Market do
   def get_store!(id) do
     case ApplicationManager.get_entity(@app_name, id) do
       nil -> raise("No results")
-      entity -> Store.to_store(entity.data, entity.uuid)
+      entity -> Store.to_store(entity)
     end
   end
 
@@ -62,7 +62,7 @@ defmodule Locally.Market do
 
     if cs.valid? do
       %{entity: entity} = ApplicationManager.run_action(@app_name, :add_store, attrs)
-      {:ok, Store.to_store(entity.data, entity.uuid)}
+      {:ok, Store.to_store(entity)}
     else
       {:error, cs}
     end
@@ -89,7 +89,7 @@ defmodule Locally.Market do
       %{entity: entity} =
         ApplicationManager.run_action(@app_name, :update_store, %{uuid: store.id, data: attrs})
 
-      {:ok, Store.to_store(entity.data, entity.uuid)}
+      {:ok, Store.to_store(entity)}
     else
       {:error, cs}
     end
@@ -110,7 +110,7 @@ defmodule Locally.Market do
   def delete_store(%Store{} = store) do
     %{entity: entity} = ApplicationManager.run_action(@app_name, :remove_store, %{uuid: store.id})
 
-    {:ok, Store.to_store(entity.data, entity.uuid)}
+    {:ok, Store.to_store(entity)}
   end
 
   @doc """

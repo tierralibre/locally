@@ -25,4 +25,8 @@ defmodule Locally.Market.Store do
     |> cast(Map.put(data, "id", uuid), @attrs)
     |> apply_changes()
   end
+
+  def to_store(%Erm.Core.Entity{type: :store} = entity) do
+    to_store(entity.data, entity.uuid)
+  end
 end
