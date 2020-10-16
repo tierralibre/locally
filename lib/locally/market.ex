@@ -108,8 +108,7 @@ defmodule Locally.Market do
 
   """
   def delete_store(%Store{} = store) do
-    %{entity: entity} =
-      ApplicationManager.run_action(@app_name, :remove_store, %{uuid: store.id})
+    %{entity: entity} = ApplicationManager.run_action(@app_name, :remove_store, %{uuid: store.id})
 
     {:ok, Store.to_store(entity.data, entity.uuid)}
   end
