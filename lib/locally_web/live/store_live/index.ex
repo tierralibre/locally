@@ -2,11 +2,17 @@ defmodule LocallyWeb.StoreLive.Index do
   use LocallyWeb, :live_view
 
   alias Locally.Market
+  alias Locally.Accounts
   alias Locally.Market.Store
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :stores, list_stores())}
+  def mount(_params, %{"user_token" => user_token}, socket) do
+    {
+      :ok,
+      socket
+      |> assign(:stores, list_stores())
+      |> assign(:current_user, Accounts.get_user_by_session_token(user_token))
+    }
   end
 
   @impl true
@@ -23,7 +29,7 @@ defmodule LocallyWeb.StoreLive.Index do
   defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "New Store")
-    |> assign(:store, %Store{})
+    |> assign(:store, %Store{owner_id: socket.assigns.current_user.id})
   end
 
   defp apply_action(socket, :index, _params) do

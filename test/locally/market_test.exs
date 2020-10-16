@@ -10,12 +10,14 @@ defmodule Locally.MarketTest do
     @valid_attrs %{
       "name" => "some name",
       "postal_code" => "some postal_code",
-      "postal_direction" => "some postal_direction"
+      "postal_direction" => "some postal_direction",
+      "owner_id" => "2938792-239847923-23984729837"
     }
     @update_attrs %{
       "name" => "some updated name",
       "postal_code" => "some updated postal_code",
-      "postal_direction" => "some updated postal_direction"
+      "postal_direction" => "some updated postal_direction",
+      "owner_id" => "totally-different-ownid"
     }
     @invalid_attrs %{name: nil, postal_code: nil, postal_direction: nil}
     @app_name "Locally"

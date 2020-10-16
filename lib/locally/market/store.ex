@@ -3,7 +3,8 @@ defmodule Locally.Market.Store do
   import Ecto.Changeset
 
   @primary_key false
-  @attrs [:id, :name, :postal_code, :postal_direction, :owner_id]
+  @required [:name, :postal_code, :postal_direction, :owner_id]
+  @params [:id] ++ @required
 
   embedded_schema do
     field :id, :string
@@ -16,13 +17,13 @@ defmodule Locally.Market.Store do
   @doc false
   def changeset(store, attrs) do
     store
-    |> cast(attrs, [:name, :postal_code, :postal_direction])
-    |> validate_required([:name, :postal_code, :postal_direction])
+    |> cast(attrs, @params)
+    |> validate_required(@required)
   end
 
   def to_store(data, uuid) do
     %__MODULE__{}
-    |> cast(Map.put(data, "id", uuid), @attrs)
+    |> cast(Map.put(data, "id", uuid), @params)
     |> apply_changes()
   end
 

@@ -18,5 +18,7 @@
   <%= text_input f, :postal_direction %>
   <%= error_tag f, :postal_direction %>
 
+  <%= hidden_input f, :owner_id %>
+
   <%= submit "Save", phx_disable_with: "Saving..." %>
 </form>
