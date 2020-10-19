@@ -79,4 +79,74 @@ defmodule Locally.MarketTest do
       assert %Ecto.Changeset{} = Market.change_store(store)
     end
   end
+
+  describe "product_categories" do
+    alias Locally.Market.ProductCategory
+    alias Erm.Boundary.ApplicationManager
+
+    @valid_attrs %{"name" => "some name"}
+    @update_attrs %{"name" => "some updated name"}
+    @invalid_attrs %{"name" => nil}
+
+    def product_category_fixture(attrs \\ %{}) do
+      ApplicationManager.reset_app(@app_name)
+
+      {:ok, product_category} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Market.create_product_category()
+
+      product_category
+    end
+
+    test "list_product_categories/0 returns all product_categories" do
+      product_category = product_category_fixture()
+      assert Market.list_product_categories() == [product_category]
+    end
+
+    test "get_product_category!/1 returns the product_category with given id" do
+      product_category = product_category_fixture()
+      assert Market.get_product_category!(product_category.id) == product_category
+    end
+
+    test "create_product_category/1 with valid data creates a product_category" do
+      assert {:ok, %ProductCategory{} = product_category} =
+               Market.create_product_category(@valid_attrs)
+
+      assert product_category.name == "some name"
+    end
+
+    test "create_product_category/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Market.create_product_category(@invalid_attrs)
+    end
+
+    test "update_product_category/2 with valid data updates the product_category" do
+      product_category = product_category_fixture()
+
+      assert {:ok, %ProductCategory{} = product_category} =
+               Market.update_product_category(product_category, @update_attrs)
+
+      assert product_category.name == "some updated name"
+    end
+
+    test "update_product_category/2 with invalid data returns error changeset" do
+      product_category = product_category_fixture()
+
+      assert {:error, %Ecto.Changeset{}} =
+               Market.update_product_category(product_category, @invalid_attrs)
+
+      assert product_category == Market.get_product_category!(product_category.id)
+    end
+
+    test "delete_product_category/1 deletes the product_category" do
+      product_category = product_category_fixture()
+      assert {:ok, %ProductCategory{}} = Market.delete_product_category(product_category)
+      assert_raise RuntimeError, fn -> Market.get_product_category!(product_category.id) end
+    end
+
+    test "change_product_category/1 returns a product_category changeset" do
+      product_category = product_category_fixture()
+      assert %Ecto.Changeset{} = Market.change_product_category(product_category)
+    end
+  end
 end

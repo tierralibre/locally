@@ -1,22 +1,19 @@
-defmodule Locally.Market.Store do
+defmodule Locally.Market.ProductCategory do
   use Ecto.Schema
   import Ecto.Changeset
 
   @primary_key false
-  @required [:name, :postal_code, :postal_direction, :owner_id]
+  @required [:name]
   @params [:id] ++ @required
 
   embedded_schema do
     field :id, :string
     field :name, :string
-    field :postal_code, :string
-    field :postal_direction, :string
-    field :owner_id, :binary_id
   end
 
   @doc false
-  def changeset(store, attrs) do
-    store
+  def changeset(product_category, attrs) do
+    product_category
     |> cast(attrs, @params)
     |> validate_required(@required)
   end
@@ -27,7 +24,7 @@ defmodule Locally.Market.Store do
     |> apply_changes()
   end
 
-  def to_schema(%Erm.Core.Entity{type: :store} = entity) do
+  def to_schema(%Erm.Core.Entity{type: :product_category} = entity) do
     to_schema(entity.data, entity.uuid)
   end
 end

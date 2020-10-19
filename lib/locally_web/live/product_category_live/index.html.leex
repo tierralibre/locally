@@ -1,0 +1,36 @@
+<h1>Listing Product categories</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal @socket, LocallyWeb.ProductCategoryLive.FormComponent,
+    id: @product_category.id || :new,
+    title: @page_title,
+    action: @live_action,
+    product_category: @product_category,
+    return_to: Routes.product_category_index_path(@socket, :index) %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Id</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="product_categories">
+    <%= for product_category <- @product_categories do %>
+      <tr id="product_category-<%= product_category.id %>">
+        <td><%= product_category.name %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.product_category_show_path(@socket, :show, product_category) %></span>
+          <span><%= live_patch "Edit", to: Routes.product_category_index_path(@socket, :edit, product_category) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: product_category.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Product category", to: Routes.product_category_index_path(@socket, :new) %></span>
