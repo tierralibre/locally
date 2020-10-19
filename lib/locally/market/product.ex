@@ -1,0 +1,52 @@
+defmodule Locally.Market.Product do
+  use Ecto.Schema
+  import Ecto.Changeset
+
+  @primary_key false
+  @required [
+    :bar_code,
+    :brand,
+    :depht,
+    :description,
+    :details,
+    :discontinued,
+    :height,
+    :model,
+    :name,
+    :weight,
+    :width
+  ]
+  @params [:id] ++ @required
+
+  embedded_schema do
+    field :id, :string
+    field :bar_code, :string
+    field :brand, :string
+    field :depht, :integer
+    field :description, :string
+    field :details, :string
+    field :discontinued, :boolean, default: false
+    field :height, :integer
+    field :model, :string
+    field :name, :string
+    field :weight, :integer
+    field :width, :integer
+  end
+
+  @doc false
+  def changeset(store, attrs) do
+    store
+    |> cast(attrs, @params)
+    |> validate_required(@required)
+  end
+
+  def to_schema(data, uuid) do
+    %__MODULE__{}
+    |> cast(Map.put(data, "id", uuid), @params)
+    |> apply_changes()
+  end
+
+  def to_schema(%Erm.Core.Entity{type: :product} = entity) do
+    to_schema(entity.data, entity.uuid)
+  end
+end

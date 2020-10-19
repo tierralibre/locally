@@ -7,6 +7,7 @@ defmodule Locally.Market do
 
   alias Locally.Market.Store
   alias Locally.Market.ProductCategory
+  alias Locally.Market.Product
   alias Erm.Boundary.ApplicationManager
 
   @app_name "Locally"
@@ -247,5 +248,127 @@ defmodule Locally.Market do
   """
   def change_product_category(%ProductCategory{} = product_category, attrs \\ %{}) do
     ProductCategory.changeset(product_category, attrs)
+  end
+
+  @doc """
+  Returns the list of products.
+
+  ## Examples
+
+      iex> list_products()
+      [%Product{}, ...]
+
+  """
+  def list_products(fields \\ []) do
+    ApplicationManager.list_entities(@app_name, :product, fields)
+    |> Enum.map(&Product.to_schema(&1))
+  end
+
+  @doc """
+  Gets a single product.
+
+  Raises `Ecto.NoResultsError` if the Product does not exist.
+
+  ## Examples
+
+      iex> get_product!(123)
+      %Product{}
+
+      iex> get_product!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_product!(id) do
+    case ApplicationManager.get_entity(@app_name, id) do
+      nil -> raise("No results")
+      entity -> Product.to_schema(entity)
+    end
+  end
+
+  @doc """
+  Creates a product.
+
+  ## Examples
+
+      iex> create_product(%{field: value})
+      {:ok, %Product{}}
+
+      iex> create_product(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_product(attrs \\ %{}) do
+    cs = %Product{} |> Product.changeset(attrs)
+
+    if cs.valid? do
+      %{entity: entity} = ApplicationManager.run_action(@app_name, :add_product, attrs)
+      {:ok, Product.to_schema(entity)}
+    else
+      {:error, cs}
+    end
+  end
+
+  @doc """
+  Updates a product.
+
+  ## Examples
+
+      iex> update_product(product, %{field: new_value})
+      {:ok, %Product{}}
+
+      iex> update_product(product, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_product(%Product{} = product, attrs) do
+    cs =
+      product
+      |> Product.changeset(attrs)
+
+    if cs.valid? do
+      %{entity: entity} =
+        ApplicationManager.run_action(@app_name, :update_product, %{
+          uuid: product.id,
+          data: attrs
+        })
+
+      {:ok, Product.to_schema(entity)}
+    else
+      {:error, cs}
+    end
+  end
+
+  @doc """
+  Deletes a product.
+
+  ## Examples
+
+      iex> delete_product(product)
+      {:ok, %Product{}}
+
+      iex> delete_product(product)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_product(%Product{} = product) do
+    %{entity: entity} =
+      ApplicationManager.run_action(@app_name, :remove_product, %{
+        uuid: product.id
+      })
+
+    {:ok, Product.to_schema(entity)}
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking product changes.
+
+  ## Examples
+
+      iex> change_product(product)
+      %Ecto.Changeset{data: %Product{}}
+
+  """
+  def change_product(%Product{} = product, attrs \\ %{}) do
+    Product.changeset(product, attrs)
   end
 end
