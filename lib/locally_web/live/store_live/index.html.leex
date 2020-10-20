@@ -1,4 +1,6 @@
-<h1>Listing Stores</h1>
+<div class="flex-col m-16">
+
+<h1>My Stores</h1>
 
 <%= if @live_action in [:new, :edit] do %>
   <%= live_modal @socket, LocallyWeb.StoreLive.FormComponent,
@@ -6,10 +8,12 @@
     title: @page_title,
     action: @live_action,
     store: @store,
-    return_to: Routes.store_index_path(@socket, :index) %>
+    return_to: Routes.store_index_path(@socket, :index)
+  %>
 <% end %>
 
-<table>
+
+<table class="list-table">
   <thead>
     <tr>
       <th>Name</th>
@@ -37,3 +41,4 @@
 </table>
 
 <span><%= live_patch "New Store", to: Routes.store_index_path(@socket, :new) %></span>
+</div>

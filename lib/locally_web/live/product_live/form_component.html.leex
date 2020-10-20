@@ -4,7 +4,8 @@
   id: "product-form",
   phx_target: @myself,
   phx_change: "validate",
-  phx_submit: "save" %>
+  phx_submit: "save",
+  class: "form-std" %>
 
   <%= label f, :name %>
   <%= text_input f, :name %>

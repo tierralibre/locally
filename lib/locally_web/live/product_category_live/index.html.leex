@@ -1,4 +1,6 @@
-<h1>Listing Product categories</h1>
+<div class="flex-col m-16">
+
+<h1>Product categories</h1>
 
 <%= if @live_action in [:new, :edit] do %>
   <%= live_modal @socket, LocallyWeb.ProductCategoryLive.FormComponent,
@@ -9,12 +11,10 @@
     return_to: Routes.product_category_index_path(@socket, :index) %>
 <% end %>
 
-<table>
+<table class="list-table">
   <thead>
     <tr>
       <th>Name</th>
-      <th>Id</th>
-
       <th></th>
     </tr>
   </thead>
@@ -34,3 +34,4 @@
 </table>
 
 <span><%= live_patch "New Product category", to: Routes.product_category_index_path(@socket, :new) %></span>
+</div>
