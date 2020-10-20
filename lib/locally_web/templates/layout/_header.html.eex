@@ -1,7 +1,16 @@
 <ul class="user-header">
 <%= if @current_user do %>
   <li class="title-header"><i class="fa fa-bars"></i>Locally</li>
-  <li><i class="fa fa-user"></i><%= @current_user.email %></li>
+  <li onclick="document.getElementById('personal-dropdown').classList.toggle('hidden')">
+    <div>
+      </i><%= @current_user.email %><i class="fa fa-caret-down"></i>
+    </div>
+    <div id="personal-dropdown" class="personal-dropdown hidden">
+      <a href="<%=Routes.store_index_path(@conn, :index) %>" class="hover:bg-gray-200">My stores</a>
+      <a href="<%=Routes.product_category_index_path(@conn, :index) %>" class="hover:bg-gray-200">Categories</a>
+      <a href="<%=Routes.product_index_path(@conn, :index) %>" class="hover:bg-gray-200">Products</a>
+    </div>
+  </li>
   <li><i class="fa fa-cog"></i><%= link "Settings", to: Routes.user_settings_path(@conn, :edit) %></li>
   <li><i class="fa fa-power-off"></i><%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete %></li>
 <% else %>

@@ -9,6 +9,18 @@
 .user-header i {
   @apply m-2
 }
+
+.user-header button {
+  @apply px-2 my-1;
+}
 .title-header{
   @apply flex-grow text-3xl m-0;
+}
+
+.personal-dropdown{
+  @apply absolute w-48 bg-gray-100 rounded-lg;
+}
+
+.personal-dropdown a{
+  @apply block p-1 rounded-lg;
 }
