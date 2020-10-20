@@ -1,0 +1,11 @@
+<ul class="user-header">
+<%= if @current_user do %>
+  <li class="title-header"><i class="fa fa-bars"></i>Locally</li>
+  <li><i class="fa fa-user"></i><%= @current_user.email %></li>
+  <li><i class="fa fa-cog"></i><%= link "Settings", to: Routes.user_settings_path(@conn, :edit) %></li>
+  <li><i class="fa fa-power-off"></i><%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete %></li>
+<% else %>
+  <li><i class="fa fa-pen"></i><%= link "Register", to: Routes.user_registration_path(@conn, :new) %></li>
+  <li><i class="fa fa-user"></i><%= link "Log in", to: Routes.user_session_path(@conn, :new) %></li>
+<% end %>
+</ul>
