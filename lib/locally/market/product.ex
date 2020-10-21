@@ -6,17 +6,11 @@ defmodule Locally.Market.Product do
   @required [
     :bar_code,
     :brand,
-    :depht,
-    :description,
-    :details,
-    :discontinued,
-    :height,
     :model,
-    :name,
-    :weight,
-    :width
+    :name
   ]
-  @params [:id] ++ @required
+  @params [:id, :depht, :description, :details, :discontinued, :height, :weight, :width] ++
+            @required
 
   embedded_schema do
     field :id, :string

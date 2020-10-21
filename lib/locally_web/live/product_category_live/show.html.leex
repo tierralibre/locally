@@ -1,3 +1,4 @@
+<div class="cont-wrap">
 <h1>Show Product category</h1>
 
 <%= if @live_action in [:edit] do %>
@@ -20,3 +21,4 @@
 
 <span><%= live_patch "Edit", to: Routes.product_category_show_path(@socket, :edit, @product_category), class: "button" %></span>
 <span><%= live_redirect "Back", to: Routes.product_category_index_path(@socket, :index) %></span>
+</div>

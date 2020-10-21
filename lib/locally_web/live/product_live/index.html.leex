@@ -1,4 +1,4 @@
-<div class="flex-col m-16">
+<div class="cont-wrap">
 <h1>Products</h1>
 
 <%= if @live_action in [:new, :edit] do %>
@@ -14,17 +14,9 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Description</th>
       <th>Bar code</th>
       <th>Brand</th>
       <th>Model</th>
-      <th>Weight</th>
-      <th>Depht</th>
-      <th>Height</th>
-      <th>Width</th>
-      <th>Discontinued</th>
-      <th>Details</th>
-
       <th></th>
     </tr>
   </thead>
@@ -32,17 +24,9 @@
     <%= for product <- @products do %>
       <tr id="product-<%= product.id %>">
         <td><%= product.name %></td>
-        <td><%= product.description %></td>
         <td><%= product.bar_code %></td>
         <td><%= product.brand %></td>
         <td><%= product.model %></td>
-        <td><%= product.weight %></td>
-        <td><%= product.depht %></td>
-        <td><%= product.height %></td>
-        <td><%= product.width %></td>
-        <td><%= product.discontinued %></td>
-        <td><%= product.details %></td>
-
         <td>
           <span><%= live_redirect "Show", to: Routes.product_show_path(@socket, :show, product) %></span>
           <span><%= live_patch "Edit", to: Routes.product_index_path(@socket, :edit, product) %></span>

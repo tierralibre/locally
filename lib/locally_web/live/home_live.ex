@@ -10,7 +10,10 @@ defmodule LocallyWeb.HomeLive do
 
   def render(assigns) do
     ~L"""
-    <h1>Locally Dashboard</h1>
+    <div class="cont-wrap">
+      <h1>Locally Dashboard</h1>
+      Working in favor of thriving local markets.
+    </div>
     """
   end
 end

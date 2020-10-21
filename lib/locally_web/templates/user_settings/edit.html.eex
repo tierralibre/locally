@@ -1,3 +1,4 @@
+<div class="cont-wrap">
 <h1>Settings</h1>
 
 <h3>Change email</h3>
@@ -47,3 +48,4 @@
     <%= submit "Change password" %>
   </div>
 <% end %>
+</div>
