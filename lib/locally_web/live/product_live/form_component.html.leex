@@ -51,5 +51,22 @@
   <%= text_input f, :details %>
   <%= error_tag f, :details %>
 
+  <label>Categories</label>
+  <div class="flex flex-row">
+    <%= for %{name: category_name} <- @product.categories do %>
+      <div class="category-bubble"> <%= category_name %> <i class="fa fa-times-circle" phx-click="delete-category" phx-target="<%= @myself %>" phx-value-category="<%= category_name %>"></i></div>
+    <% end %>
+    <div>
+      <i class="fa fa-plus fa-lg text-gray-600" phx-click="show-category-dialog" phx-target="<%= @myself %>"></i>
+      <%= if @show_category_dialog do %>
+        <ul class="absolute w-1/6 bg-gray-200 rounded-lg p-1">
+        <%= for category <- @categories do %>
+          <li class="hover:bg-gray-600 hover:text-white rounded-lg p-1" phx-click="add-category" phx-target="<%= @myself %>" phx-value-category="<%= category.name %>"><%= category.name %></li>
+        <% end %>
+        </ul>
+      <% end %>
+    </div>
+  </div>
+
   <%= submit "Save", phx_disable_with: "Saving..." %>
 </form>

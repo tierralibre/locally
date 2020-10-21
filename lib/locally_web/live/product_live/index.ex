@@ -17,19 +17,20 @@ defmodule LocallyWeb.ProductLive.Index do
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, "Edit Product")
-    |> assign(:product, Market.get_product!(id))
+    |> assign(:product, Market.get_product_with_categories!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "New Product")
-    |> assign(:product, %Product{})
+    |> assign(:product, %Product{categories: []})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
     |> assign(:page_title, "Listing Products")
     |> assign(:product, nil)
+    |> assign(:categories, Market.list_product_categories())
   end
 
   @impl true

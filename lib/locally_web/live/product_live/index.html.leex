@@ -7,7 +7,9 @@
     title: @page_title,
     action: @live_action,
     product: @product,
-    return_to: Routes.product_index_path(@socket, :index) %>
+    return_to: Routes.product_index_path(@socket, :index),
+    show_category_dialog: false,
+    categories: Locally.Market.list_product_categories() %>
 <% end %>
 
 <table class="list-table">

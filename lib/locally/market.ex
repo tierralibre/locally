@@ -285,6 +285,21 @@ defmodule Locally.Market do
     end
   end
 
+  def get_product_with_categories!(id) do
+    case ApplicationManager.get_entity(@app_name, id) do
+      nil ->
+        raise("No results")
+
+      entity ->
+        product = Product.to_schema(entity)
+
+        %Product{
+          product
+          | categories: [%{uuid: "uuid1", name: "Grocery"}, %{uuid: "uuid2", name: "Fish"}]
+        }
+    end
+  end
+
   @doc """
   Creates a product.
 

@@ -2,6 +2,7 @@ defmodule LocallyWeb.ProductLive.FormComponent do
   use LocallyWeb, :live_component
 
   alias Locally.Market
+  alias Locally.Market.Product
 
   @impl true
   def update(%{product: product} = assigns, socket) do
@@ -25,6 +26,35 @@ defmodule LocallyWeb.ProductLive.FormComponent do
 
   def handle_event("save", %{"product" => product_params}, socket) do
     save_product(socket, socket.assigns.action, product_params)
+  end
+
+  def handle_event("show-category-dialog", %{}, socket) do
+    {:noreply, assign(socket, :show_category_dialog, not socket.assigns.show_category_dialog)}
+  end
+
+  def handle_event("add-category", %{"category" => category}, socket) do
+    product = socket.assigns.product
+    category = Enum.find(socket.assigns.categories, fn cat -> cat.name == category end)
+
+    {
+      :noreply,
+      assign(socket, :product, %Product{product | categories: [category | product.categories]})
+      |> assign(:show_category_dialog, false)
+    }
+  end
+
+  def handle_event("delete-category", %{"category" => category}, socket) do
+    product = socket.assigns.product
+    category = Enum.find(socket.assigns.categories, fn cat -> cat.name == category end)
+
+    {
+      :noreply,
+      assign(socket, :product, %Product{
+        product
+        | categories: Enum.filter(product.categories, fn cat -> cat.name != category.name end)
+      })
+      |> assign(:show_category_dialog, false)
+    }
   end
 
   defp save_product(socket, :edit, product_params) do
