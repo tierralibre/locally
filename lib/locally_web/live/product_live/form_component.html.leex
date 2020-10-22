@@ -51,9 +51,10 @@
   <%= text_input f, :details %>
   <%= error_tag f, :details %>
 
-  <label>Categories</label>
+  <%= label f, :categories %>
+  <%= hidden_input f, :categories, value: @product.categories%>
   <div class="flex flex-row">
-    <%= for %{name: category_name} <- @product.categories do %>
+    <%= for %{"name" => category_name} <- Enum.filter(Jason.decode!(@product.categories),& !&1["deleted"]) do %>
       <div class="category-bubble"> <%= category_name %> <i class="fa fa-times-circle" phx-click="delete-category" phx-target="<%= @myself %>" phx-value-category="<%= category_name %>"></i></div>
     <% end %>
     <div>

@@ -23,7 +23,7 @@ defmodule LocallyWeb.ProductLive.Index do
   defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "New Product")
-    |> assign(:product, %Product{categories: []})
+    |> assign(:product, %Product{categories: "[]"})
   end
 
   defp apply_action(socket, :index, _params) do

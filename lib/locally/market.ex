@@ -293,9 +293,19 @@ defmodule Locally.Market do
       entity ->
         product = Product.to_schema(entity)
 
+        categories =
+          ApplicationManager.list_entities_by_relation(
+            @app_name,
+            :belongs_category,
+            :to,
+            entity.uuid
+          )
+          |> Enum.map(fn entity -> entity |> ProductCategory.to_schema() |> Map.from_struct() end)
+          |> Jason.encode!()
+
         %Product{
           product
-          | categories: [%{uuid: "uuid1", name: "Grocery"}, %{uuid: "uuid2", name: "Fish"}]
+          | categories: categories
         }
     end
   end
@@ -312,17 +322,43 @@ defmodule Locally.Market do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_product(attrs \\ %{}) do
+  def create_product(%{"categories" => categories_jason} = attrs \\ %{}) do
     cs = %Product{} |> Product.changeset(attrs)
 
     if cs.valid? do
       %{entity: entity} = ApplicationManager.run_action(@app_name, :add_product, attrs)
+
+      Jason.decode!(categories_jason)
+      |> update_categories(entity)
+
       {:ok, Product.to_schema(entity)}
     else
       {:error, cs}
     end
   end
 
+  defp update_categories(categories, entity) do
+    Enum.filter(categories, fn cat -> cat["deleted"] end)
+    |> Enum.each(fn cat ->
+      ApplicationManager.run_action(@app_name, :remove_product_from_category, %{
+        from: entity.uuid,
+        to: cat["id"]
+      })
+    end)
+
+    Enum.filter(categories, fn cat -> !cat["deleted"] end)
+    |> Enum.each(fn cat ->
+      ApplicationManager.run_action(@app_name, :add_product_to_category, %{
+        from: entity.uuid,
+        to: cat["id"]
+      })
+    end)
+  end
+
+  @spec update_product(
+          Locally.Market.Product.t(),
+          :invalid | %{optional(:__struct__) => none, optional(atom | binary) => any}
+        ) :: {:error, Ecto.Changeset.t()} | {:ok, map}
   @doc """
   Updates a product.
 
@@ -335,7 +371,7 @@ defmodule Locally.Market do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_product(%Product{} = product, attrs) do
+  def update_product(%Product{categories: categories_jason} = product, attrs) do
     cs =
       product
       |> Product.changeset(attrs)
@@ -346,6 +382,9 @@ defmodule Locally.Market do
           uuid: product.id,
           data: attrs
         })
+
+      Jason.decode!(categories_jason)
+      |> update_categories(entity)
 
       {:ok, Product.to_schema(entity)}
     else

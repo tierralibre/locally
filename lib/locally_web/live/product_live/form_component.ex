@@ -34,11 +34,19 @@ defmodule LocallyWeb.ProductLive.FormComponent do
 
   def handle_event("add-category", %{"category" => category}, socket) do
     product = socket.assigns.product
-    category = Enum.find(socket.assigns.categories, fn cat -> cat.name == category end)
+
+    category =
+      Map.from_struct(Enum.find(socket.assigns.categories, fn cat -> cat.name == category end))
+
+    product_categories = Jason.decode!(product.categories)
+    inserted_product_categories = [category | product_categories]
 
     {
       :noreply,
-      assign(socket, :product, %Product{product | categories: [category | product.categories]})
+      assign(socket, :product, %Product{
+        product
+        | categories: Jason.encode!(inserted_product_categories)
+      })
       |> assign(:show_category_dialog, false)
     }
   end
@@ -47,14 +55,26 @@ defmodule LocallyWeb.ProductLive.FormComponent do
     product = socket.assigns.product
     category = Enum.find(socket.assigns.categories, fn cat -> cat.name == category end)
 
+    deleted_product_categories =
+      Jason.decode!(product.categories)
+      |> Enum.map(fn cat -> deleted_category(cat, category.id) end)
+
     {
       :noreply,
       assign(socket, :product, %Product{
         product
-        | categories: Enum.filter(product.categories, fn cat -> cat.name != category.name end)
+        | categories: Jason.encode!(deleted_product_categories)
       })
       |> assign(:show_category_dialog, false)
     }
+  end
+
+  defp deleted_category(%{"id" => id} = category, id) do
+    %{category | "deleted" => true}
+  end
+
+  defp deleted_category(category, _) do
+    category
   end
 
   defp save_product(socket, :edit, product_params) do

@@ -9,6 +9,7 @@ defmodule Locally.Market.ProductCategory do
   embedded_schema do
     field :id, :string
     field :name, :string
+    field :deleted, :boolean, virtual: true, defalut: false
   end
 
   @doc false
@@ -20,7 +21,7 @@ defmodule Locally.Market.ProductCategory do
 
   def to_schema(data, uuid) do
     %__MODULE__{}
-    |> cast(Map.put(data, "id", uuid), @params)
+    |> cast(data |> Map.put("id", uuid) |> Map.put("deleted", false), @params)
     |> apply_changes()
   end
 
