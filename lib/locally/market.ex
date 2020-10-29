@@ -425,4 +425,130 @@ defmodule Locally.Market do
   def change_product(%Product{} = product, attrs \\ %{}) do
     Product.changeset(product, attrs)
   end
+
+  alias Locally.Market.Stock
+
+  @doc """
+  Returns the list of stocks.
+
+  ## Examples
+
+      iex> list_stocks()
+      [%Stock{}, ...]
+
+  """
+  def list_stocks do
+    ApplicationManager.list_relations(@app_name, :stock, %{})
+    |> Enum.map(&Stock.to_schema(&1))
+  end
+
+  @doc """
+  Gets a single stock.
+
+  Raises `Ecto.NoResultsError` if the Stock does not exist.
+
+  ## Examples
+
+      iex> get_stock!(123)
+      %Stock{}
+
+      iex> get_stock!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_stock!([from, to]) do
+    case ApplicationManager.get_relation(@app_name, from, to) do
+      nil -> raise("No results")
+      relation -> Stock.to_schema(relation)
+    end
+  end
+
+  @doc """
+  Creates a stock.
+
+  ## Examples
+
+      iex> create_stock(%{field: value})
+      {:ok, %Stock{}}
+
+      iex> create_stock(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_stock(attrs \\ %{}) do
+    cs = %Stock{} |> Stock.changeset(attrs)
+
+    if cs.valid? do
+      %{entity: entity} = ApplicationManager.run_action(@app_name, :add_stock, attrs)
+      {:ok, Stock.to_schema(entity)}
+    else
+      {:error, cs}
+    end
+  end
+
+  @doc """
+  Updates a stock.
+
+  ## Examples
+
+      iex> update_stock(stock, %{field: new_value})
+      {:ok, %Stock{}}
+
+      iex> update_stock(stock, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_stock(%Stock{} = stock, attrs) do
+    cs =
+      stock
+      |> Stock.changeset(attrs)
+
+    if cs.valid? do
+      %{entity: entity} =
+        ApplicationManager.run_action(@app_name, :update_stock, %{
+          from: stock.from,
+          to: stock.to,
+          data: attrs
+        })
+
+      {:ok, Stock.to_schema(entity)}
+    else
+      {:error, cs}
+    end
+  end
+
+  @doc """
+  Deletes a stock.
+
+  ## Examples
+
+      iex> delete_stock(stock)
+      {:ok, %Stock{}}
+
+      iex> delete_stock(stock)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_stock(%Stock{} = stock) do
+    %{relation: relation} =
+      ApplicationManager.run_action(@app_name, :remove_stock, %{
+        from: stock.from,
+        to: stock.to
+      })
+
+    {:ok, Stock.to_schema(relation)}
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking stock changes.
+
+  ## Examples
+
+      iex> change_stock(stock)
+      %Ecto.Changeset{data: %Stock{}}
+
+  """
+  def change_stock(%Stock{} = stock, attrs \\ %{}) do
+    Stock.changeset(stock, attrs)
+  end
 end

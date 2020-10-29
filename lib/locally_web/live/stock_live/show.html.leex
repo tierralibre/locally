@@ -1,0 +1,32 @@
+<h1>Show Stock</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, LocallyWeb.StockLive.FormComponent,
+    id: @stock.id,
+    title: @page_title,
+    action: @live_action,
+    stock: @stock,
+    return_to: Routes.stock_show_path(@socket, :show, @stock) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Existence:</strong>
+    <%= @stock.existence %>
+  </li>
+
+  <li>
+    <strong>Units:</strong>
+    <%= @stock.units %>
+  </li>
+
+  <li>
+    <strong>Price:</strong>
+    <%= @stock.price %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.stock_show_path(@socket, :edit, @stock), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.stock_index_path(@socket, :index) %></span>

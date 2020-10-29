@@ -81,6 +81,14 @@ defmodule LocallyWeb.Router do
     live "/products/:id", ProductLive.Show, :show
     live "/products/:id/show/edit", ProductLive.Show, :edit
 
+    # stocks
+    live "/stocks", StockLive.Index, :index
+    live "/stocks/new", StockLive.Index, :new
+    live "/stocks/:id/edit", StockLive.Index, :edit
+
+    live "/stocks/:id", StockLive.Show, :show
+    live "/stocks/:id/show/edit", StockLive.Show, :edit
+
     # users
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings/update_password", UserSettingsController, :update_password

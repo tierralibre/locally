@@ -267,4 +267,67 @@ defmodule Locally.MarketTest do
       assert %Ecto.Changeset{} = Market.change_product(product)
     end
   end
+
+  describe "stocks" do
+    alias Locally.Market.Stock
+
+    @valid_attrs %{existence: true, price: 42, units: 42}
+    @update_attrs %{existence: false, price: 43, units: 43}
+    @invalid_attrs %{existence: nil, price: nil, units: nil}
+
+    def stock_fixture(attrs \\ %{}) do
+      {:ok, stock} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Market.create_stock()
+
+      stock
+    end
+
+    test "list_stocks/0 returns all stocks" do
+      stock = stock_fixture()
+      assert Market.list_stocks() == [stock]
+    end
+
+    test "get_stock!/1 returns the stock with given id" do
+      stock = stock_fixture()
+      assert Market.get_stock!(stock.id) == stock
+    end
+
+    test "create_stock/1 with valid data creates a stock" do
+      assert {:ok, %Stock{} = stock} = Market.create_stock(@valid_attrs)
+      assert stock.existence == true
+      assert stock.price == 42
+      assert stock.units == 42
+    end
+
+    test "create_stock/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Market.create_stock(@invalid_attrs)
+    end
+
+    test "update_stock/2 with valid data updates the stock" do
+      stock = stock_fixture()
+      assert {:ok, %Stock{} = stock} = Market.update_stock(stock, @update_attrs)
+      assert stock.existence == false
+      assert stock.price == 43
+      assert stock.units == 43
+    end
+
+    test "update_stock/2 with invalid data returns error changeset" do
+      stock = stock_fixture()
+      assert {:error, %Ecto.Changeset{}} = Market.update_stock(stock, @invalid_attrs)
+      assert stock == Market.get_stock!(stock.id)
+    end
+
+    test "delete_stock/1 deletes the stock" do
+      stock = stock_fixture()
+      assert {:ok, %Stock{}} = Market.delete_stock(stock)
+      assert_raise Ecto.NoResultsError, fn -> Market.get_stock!(stock.id) end
+    end
+
+    test "change_stock/1 returns a stock changeset" do
+      stock = stock_fixture()
+      assert %Ecto.Changeset{} = Market.change_stock(stock)
+    end
+  end
 end
