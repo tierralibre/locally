@@ -1,39 +1,48 @@
-<h1>Listing Stocks</h1>
+<div class="cont-wrap">
+  <h1>Listing Stocks</h1>
+  <div>
+  <form phx-change="store_selected" class="m-2 flex flex-row">
+    <label for="store_selected"> Store: </label>
+    <select id="store_selected" name="store_selected">
+      <%=options_for_select(@stores, @store_selected) %>
+    </select>
+  </form>
+  </div>
+  <%= if @live_action in [:new, :edit] do %>
+    <%= live_modal @socket, LocallyWeb.StockLive.FormComponent,
+      id: @stock.id || :new,
+      title: @page_title,
+      action: @live_action,
+      stock: @stock,
+      return_to: Routes.stock_index_path(@socket, :index) %>
+  <% end %>
 
-<%= if @live_action in [:new, :edit] do %>
-  <%= live_modal @socket, LocallyWeb.StockLive.FormComponent,
-    id: @stock.id || :new,
-    title: @page_title,
-    action: @live_action,
-    stock: @stock,
-    return_to: Routes.stock_index_path(@socket, :index) %>
-<% end %>
+  <table class="list-table">
+    <thead>
+      <tr>
+        <th>Existence</th>
+        <th>Units</th>
+        <th>Price</th>
 
-<table>
-  <thead>
-    <tr>
-      <th>Existence</th>
-      <th>Units</th>
-      <th>Price</th>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="stocks">
-    <%= for stock <- @stocks do %>
-      <tr id="stock-<%= stock.id %>">
-        <td><%= stock.existence %></td>
-        <td><%= stock.units %></td>
-        <td><%= stock.price %></td>
-
-        <td>
-          <span><%= live_redirect "Show", to: Routes.stock_show_path(@socket, :show, stock) %></span>
-          <span><%= live_patch "Edit", to: Routes.stock_index_path(@socket, :edit, stock) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: stock.id, data: [confirm: "Are you sure?"] %></span>
-        </td>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody id="stocks">
+      <%= for stock <- @stocks do %>
+        <tr id="stock-<%= stock.id %>">
+          <td><%= stock.existence %></td>
+          <td><%= stock.units %></td>
+          <td><%= stock.price %></td>
 
-<span><%= live_patch "New Stock", to: Routes.stock_index_path(@socket, :new) %></span>
+          <td>
+            <span><%= live_redirect "Show", to: Routes.stock_show_path(@socket, :show, stock) %></span>
+            <span><%= live_patch "Edit", to: Routes.stock_index_path(@socket, :edit, stock) %></span>
+            <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: stock.id, data: [confirm: "Are you sure?"] %></span>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <span><%= live_patch "New Stock", to: Routes.stock_index_path(@socket, :new) %></span>
+</div>

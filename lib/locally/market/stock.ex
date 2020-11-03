@@ -7,6 +7,7 @@ defmodule Locally.Market.Stock do
   @params @required
 
   embedded_schema do
+    field :id, :string
     field :from, :string
     field :to, :string
     field :existence, :boolean, default: false
@@ -23,7 +24,7 @@ defmodule Locally.Market.Stock do
 
   def to_schema(data, from_uuid, to_uuid) do
     %__MODULE__{}
-    |> cast(data |> Map.put("from", from_uuid) |> Map.put("to", to_uuid), @params)
+    |> cast(data |> Map.put("from", from_uuid) |> Map.put("to", to_uuid) |> Map.put("id", from_uuid<>","<>to_uuid), @params)
     |> apply_changes()
   end
 

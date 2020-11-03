@@ -437,9 +437,13 @@ defmodule Locally.Market do
       [%Stock{}, ...]
 
   """
-  def list_stocks do
-    ApplicationManager.list_relations(@app_name, :stock, %{})
+  def list_stocks(%{} = properties \\ %{}) do
+    ApplicationManager.list_relations(@app_name, :stock, properties)
     |> Enum.map(&Stock.to_schema(&1))
+  end
+
+  def list_stocks_by_store(store_id) do
+    list_stocks(%{from: store_id})
   end
 
   @doc """
