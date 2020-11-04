@@ -6,6 +6,17 @@
   phx_change: "validate",
   phx_submit: "save" %>
 
+  <%= label f, :product_name %>
+  <%= text_input f, :product_name, autocomplete: :off, list: "products_list" %>
+  <datalist id="products_list">
+    <%= for product <- @products do  %>
+      <option value="<%= product.name %>">
+    <%  end %>
+  </datalist>
+
+  <%= text_input f, :from , value: @store_selected%>
+  <%= text_input f, :to %>
+
   <%= label f, :existence %>
   <%= checkbox f, :existence %>
   <%= error_tag f, :existence %>

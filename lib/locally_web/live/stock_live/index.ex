@@ -9,13 +9,15 @@ defmodule LocallyWeb.StockLive.Index do
   def mount(_params, %{"user_token" => user_token}, socket) do
     user = Accounts.get_user_by_session_token(user_token)
     store_options = store_options(user.id)
-    store_selected = store_options |> List.first() |> elem(1)
+    store_selected = first_store(store_options)
+
     {
       :ok,
       socket
       |> assign(:stocks, list_stocks(store_selected))
       |> assign(:store_selected, store_selected)
       |> assign(:stores, store_options)
+      |> assign(:products, list_products())
     }
   end
 
@@ -44,7 +46,7 @@ defmodule LocallyWeb.StockLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    stock = Market.get_stock!(id)
+    stock = Market.get_stock!(id |> split_id())
     {:ok, _} = Market.delete_stock(stock)
 
     {:noreply, assign(socket, :stocks, list_stocks(socket.assigns.store_selected))}
@@ -55,7 +57,7 @@ defmodule LocallyWeb.StockLive.Index do
       :noreply,
       socket
       |> assign(:store_selected, store_selected)
-      |> assign(:stocks, list_stores(store_selected))
+      |> assign(:stocks, list_stocks(store_selected))
     }
   end
 
@@ -74,6 +76,18 @@ defmodule LocallyWeb.StockLive.Index do
   end
 
   defp split_id(id) do
-    id |> String.split(",") |> Enum.map(&String.to_integer(&1))
+    id |> String.split(",")
+  end
+
+  defp first_store([]) do
+    nil
+  end
+
+  defp first_store(store_options) do
+    store_options |> List.first() |> elem(1)
+  end
+
+  defp list_products() do
+    Market.list_products()
   end
 end

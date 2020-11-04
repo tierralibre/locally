@@ -14,13 +14,22 @@ defmodule LocallyWeb.StockLive.FormComponent do
   end
 
   @impl true
-  def handle_event("validate", %{"stock" => stock_params}, socket) do
+  def handle_event(
+        "validate",
+        %{"stock" => %{"product_name" => product_name} = stock_params},
+        socket
+      ) do
     changeset =
       socket.assigns.stock
       |> Market.change_stock(stock_params)
       |> Map.put(:action, :validate)
 
-    {:noreply, assign(socket, :changeset, changeset)}
+    {
+      :noreply,
+      socket
+      |> assign(:changeset, changeset)
+      |> assign_product_candidates(product_name)
+    }
   end
 
   def handle_event("save", %{"stock" => stock_params}, socket) do
@@ -50,6 +59,23 @@ defmodule LocallyWeb.StockLive.FormComponent do
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
+    end
+  end
+
+  defp assign_product_candidates(socket, product_name) do
+    product = socket.assigns.products |> Enum.find(fn prod -> prod.name == product_name end)
+
+    case product do
+      nil ->
+        socket
+
+      _ ->
+        socket
+        |> assign(
+          :changeset,
+          socket.assigns.changeset
+          |> Ecto.Changeset.put_change(:to, product.id)
+        )
     end
   end
 end

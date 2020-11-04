@@ -14,12 +14,15 @@
       title: @page_title,
       action: @live_action,
       stock: @stock,
+      store_selected: @store_selected,
+      products: @products,
       return_to: Routes.stock_index_path(@socket, :index) %>
   <% end %>
 
   <table class="list-table">
     <thead>
       <tr>
+        <th>Product</th>
         <th>Existence</th>
         <th>Units</th>
         <th>Price</th>
@@ -30,6 +33,7 @@
     <tbody id="stocks">
       <%= for stock <- @stocks do %>
         <tr id="stock-<%= stock.id %>">
+          <td><%= stock.product_name %></td>
           <td><%= stock.existence %></td>
           <td><%= stock.units %></td>
           <td><%= stock.price %></td>

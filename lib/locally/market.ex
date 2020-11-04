@@ -444,6 +444,11 @@ defmodule Locally.Market do
 
   def list_stocks_by_store(store_id) do
     list_stocks(%{from: store_id})
+    |> Enum.map(fn stock -> fill_stock_product_name(stock) end)
+  end
+
+  defp fill_stock_product_name(stock) do
+    %Stock{stock | product_name: get_product!(stock.to).name}
   end
 
   @doc """
@@ -462,8 +467,12 @@ defmodule Locally.Market do
   """
   def get_stock!([from, to]) do
     case ApplicationManager.get_relation(@app_name, from, to) do
-      nil -> raise("No results")
-      relation -> Stock.to_schema(relation)
+      nil ->
+        raise("No results")
+
+      relation ->
+        Stock.to_schema(relation)
+        |> fill_stock_product_name()
     end
   end
 
@@ -483,8 +492,8 @@ defmodule Locally.Market do
     cs = %Stock{} |> Stock.changeset(attrs)
 
     if cs.valid? do
-      %{entity: entity} = ApplicationManager.run_action(@app_name, :add_stock, attrs)
-      {:ok, Stock.to_schema(entity)}
+      %{relation: relation} = ApplicationManager.run_action(@app_name, :add_stock, attrs)
+      {:ok, Stock.to_schema(relation)}
     else
       {:error, cs}
     end
@@ -508,14 +517,14 @@ defmodule Locally.Market do
       |> Stock.changeset(attrs)
 
     if cs.valid? do
-      %{entity: entity} =
+      %{relation: relation} =
         ApplicationManager.run_action(@app_name, :update_stock, %{
           from: stock.from,
           to: stock.to,
           data: attrs
         })
 
-      {:ok, Stock.to_schema(entity)}
+      {:ok, Stock.to_schema(relation)}
     else
       {:error, cs}
     end

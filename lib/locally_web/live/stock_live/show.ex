@@ -17,7 +17,7 @@ defmodule LocallyWeb.StockLive.Show do
   end
 
   defp split_id(id) do
-    id |> String.split(",") |> Enum.map(&String.to_integer(&1))
+    id |> String.split(",")
   end
 
   defp page_title(:show), do: "Show Stock"
