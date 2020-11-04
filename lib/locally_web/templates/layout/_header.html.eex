@@ -9,6 +9,7 @@
         <a href="<%=Routes.store_index_path(@conn, :index) %>" class="hover:bg-gray-200">My stores</a>
         <a href="<%=Routes.product_category_index_path(@conn, :index) %>" class="hover:bg-gray-200">Categories</a>
         <a href="<%=Routes.product_index_path(@conn, :index) %>" class="hover:bg-gray-200">Products</a>
+        <a href="<%=Routes.stock_index_path(@conn, :index) %>" class="hover:bg-gray-200">Stock</a>
       </div>
     </li>
     <li><i class="fa fa-cog"></i><%= link "Settings", to: Routes.user_settings_path(@conn, :edit) %></li>
