@@ -2,6 +2,7 @@ defmodule LocallyWeb.HomeLive do
   use LocallyWeb, :live_view
 
   alias Locally.Market
+  alias Locally.Market.Product
 
   def mount(params, _session, socket) do
     if connected?(socket) do
@@ -19,6 +20,17 @@ defmodule LocallyWeb.HomeLive do
   end
 
   defp list_products(_params) do
-    Market.list_products()
+    Market.search_products("")
+  end
+
+  def best_price(%Product{stock: []}) do
+    "No stock"
+  end
+
+  def best_price(%Product{stock: stocks}) do
+    case Enum.min_by(stocks, fn stock -> stock.price end) do
+      nil -> "No stock"
+      min -> min.price
+    end
   end
 end
