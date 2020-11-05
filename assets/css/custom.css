@@ -14,9 +14,14 @@ button {
   @apply bg-blue-500  text-white font-bold py-2 px-4 rounded m-2;
 }
 
-input[type=text], input[type=email], input[type=password], input[type=number] {
+.locally-form input[type=text], input[type=email], input[type=password], input[type=number] {
   @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight m-1;
 }
+
+.search-input{
+  @apply shadow appearance-none border rounded flex-grow py-2 px-3 text-gray-700 leading-tight m-1;
+}
+
 
 label {
   @apply block text-gray-500 font-bold mb-1 pr-4 m-1;
@@ -43,7 +48,7 @@ label {
 }
 
 .title-header{
-  @apply flex-grow text-3xl m-0;
+  @apply  text-3xl m-0;
 }
 
 .personal-dropdown{

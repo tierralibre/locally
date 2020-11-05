@@ -250,6 +250,11 @@ defmodule Locally.Market do
     ProductCategory.changeset(product_category, attrs)
   end
 
+  def search_products(search) do
+    list_products()
+    |> Enum.filter(fn product -> String.downcase(product.name) =~ String.downcase(search) end)
+  end
+
   @doc """
   Returns the list of products.
 

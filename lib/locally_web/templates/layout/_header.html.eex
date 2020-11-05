@@ -1,5 +1,5 @@
 <ul class="user-header">
-  <li class="title-header"><i class="fa fa-bars"></i>Locally</li>
+  <li class="title-header"><i class="fa fa-bars"></i>Locally</li><input type="search" name="q" value="<%= @conn.params["search"] %>"  placeholder="Search..." class="search-input" onsearch="window.location.href='/?search='+this.value">
   <%= if @current_user do %>
     <li onclick="document.getElementById('personal-dropdown').classList.toggle('hidden')" class="cursor-pointer">
       <div>

@@ -4,7 +4,8 @@
   id: "stock-form",
   phx_target: @myself,
   phx_change: "validate",
-  phx_submit: "save" %>
+  phx_submit: "save",
+  class: "locally-form" %>
 
   <%= label f, :product_name %>
   <%= text_input f, :product_name, autocomplete: :off, list: "products_list" %>
@@ -14,8 +15,8 @@
     <%  end %>
   </datalist>
 
-  <%= text_input f, :from , value: @store_selected%>
-  <%= text_input f, :to %>
+  <%= hidden_input f, :from , value: @store_selected%>
+  <%= hidden_input f, :to %>
 
   <%= label f, :existence %>
   <%= checkbox f, :existence %>
