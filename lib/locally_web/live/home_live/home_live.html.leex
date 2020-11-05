@@ -5,7 +5,7 @@
             <div  class="w-40 h-42 box-shadow shadow-sm">
                 <a href="<%=Routes.product_show_path(@socket, :show, product.id) %>">
                     <img src="/images/generic.jpg">
-                    <div class="text-center"><%= product.name %></div><div class="text-sm text-right text-gray-400 right-0 bottom-0">Best price: <%= best_price(product) %></div>
+                    <div class="text-center"><%= product.name %></div><div class="text-sm text-right text-gray-400 m-2">Best price: <%= best_price(product) %></div>
                 </a>
             </div>
         <% end %>
