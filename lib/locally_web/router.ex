@@ -57,7 +57,6 @@ defmodule LocallyWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     # store
-    live "/", HomeLive
     live "/stores", StoreLive.Index, :index
     live "/stores/new", StoreLive.Index, :new
     live "/stores/:id/edit", StoreLive.Index, :edit
@@ -99,6 +98,7 @@ defmodule LocallyWeb.Router do
   scope "/", LocallyWeb do
     pipe_through [:browser]
 
+    live "/", HomeLive
     delete "/users/log_out", UserSessionController, :delete
     get "/users/confirm", UserConfirmationController, :new
     post "/users/confirm", UserConfirmationController, :create
