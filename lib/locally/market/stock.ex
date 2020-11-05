@@ -14,6 +14,7 @@ defmodule Locally.Market.Stock do
     field :price, :integer
     field :units, :integer
     field :product_name, :string, virtual: true
+    field :store_name, :string, virtual: true
   end
 
   @doc false

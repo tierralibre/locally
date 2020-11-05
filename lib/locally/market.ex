@@ -264,6 +264,7 @@ defmodule Locally.Market do
     %Product{product | stock: list_stocks_by_product(product.id)}
   end
 
+
   @doc """
   Returns the list of products.
 
@@ -463,6 +464,15 @@ defmodule Locally.Market do
 
   def list_stocks_by_product(product_id) do
     list_stocks(%{to: product_id})
+    |> fill_stocks_with_store()
+  end
+
+  defp fill_stocks_with_store(stocks) do
+    Enum.map(stocks,& fill_stock_with_store(&1) )
+  end
+
+  defp fill_stock_with_store(%Stock{} = stock) do
+    %Stock{ stock | store_name: get_store!(stock.from).name}
   end
 
   defp fill_stock_product_name(stock) do
@@ -491,6 +501,7 @@ defmodule Locally.Market do
       relation ->
         Stock.to_schema(relation)
         |> fill_stock_product_name()
+        |> fill_stock_with_store()
     end
   end
 
