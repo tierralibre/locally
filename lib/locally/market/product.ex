@@ -26,6 +26,7 @@ defmodule Locally.Market.Product do
     field :weight, :integer
     field :width, :integer
     field :categories, :string, virtual: true, default: "[]"
+    field :stock, :any, virtual: true
   end
 
   @doc false

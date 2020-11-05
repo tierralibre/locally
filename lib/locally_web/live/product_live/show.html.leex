@@ -51,6 +51,25 @@
           <%= @product.discontinued %>
         </li>
       </ul>
+      <h3>Stock</h3>
+      <table class="list-table">
+        <thead>
+          <tr>
+            <th>Store</th>
+            <th>Units</th>
+            <th>Price</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="products">
+          <%= for stock <- @product.stock do %>
+            <td><%= stock.from %></td>
+            <td><%= stock.units %></td>
+            <td><%= stock.price %></td>
+            <td><a href="#buy">Buy</a>
+          <% end %>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

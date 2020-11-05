@@ -253,6 +253,15 @@ defmodule Locally.Market do
   def search_products(search) do
     list_products()
     |> Enum.filter(fn product -> String.downcase(product.name) =~ String.downcase(search) end)
+    |> fill_products_with_stock()
+  end
+
+  defp fill_products_with_stock(products) do
+    Enum.map(products,fn product -> fill_product_with_stock(product) end)
+  end
+
+  defp fill_product_with_stock(%Product{} = product) do
+    %Product{product | stock: list_stocks_by_product(product.id)}
   end
 
   @doc """
@@ -286,7 +295,7 @@ defmodule Locally.Market do
   def get_product!(id) do
     case ApplicationManager.get_entity(@app_name, id) do
       nil -> raise("No results")
-      entity -> Product.to_schema(entity)
+      entity -> Product.to_schema(entity) |> fill_product_with_stock()
     end
   end
 
@@ -450,6 +459,10 @@ defmodule Locally.Market do
   def list_stocks_by_store(store_id) do
     list_stocks(%{from: store_id})
     |> Enum.map(fn stock -> fill_stock_product_name(stock) end)
+  end
+
+  def list_stocks_by_product(product_id) do
+    list_stocks(%{to: product_id})
   end
 
   defp fill_stock_product_name(stock) do
