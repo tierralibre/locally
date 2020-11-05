@@ -1,74 +1,56 @@
 <div class="cont-wrap">
-<h1>Show Product</h1>
+  <h1><%= @product.name %></h1>
+  <div class="flex">
+    <div>
+      <img src="/images/generic.jpg" class="box-shadow shadow-lg">
+    </div>
+    <div class="m-4">
+      <h3>Description</h3>
+      <div><%= @product.description %></div>
+      <h3>Details:</h3>
+      <%= @product.details %>
+      <h3>Characteristics</h3>
+      <ul>
+        <li>
+          <strong>Bar code:</strong>
+          <%= @product.bar_code %>
+        </li>
 
-<%= if @live_action in [:edit] do %>
-  <%= live_modal @socket, LocallyWeb.ProductLive.FormComponent,
-    id: @product.id,
-    title: @page_title,
-    action: @live_action,
-    product: @product,
-    return_to: Routes.product_show_path(@socket, :show, @product) %>
-<% end %>
+        <li>
+          <strong>Brand:</strong>
+          <%= @product.brand %>
+        </li>
 
-<ul>
+        <li>
+          <strong>Model:</strong>
+          <%= @product.model %>
+        </li>
 
-  <li>
-    <strong>Name:</strong>
-    <%= @product.name %>
-  </li>
+        <li>
+          <strong>Weight:</strong>
+          <%= @product.weight %>
+        </li>
 
-  <li>
-    <strong>Description:</strong>
-    <%= @product.description %>
-  </li>
+        <li>
+          <strong>Depht:</strong>
+          <%= @product.depht %>
+        </li>
 
-  <li>
-    <strong>Bar code:</strong>
-    <%= @product.bar_code %>
-  </li>
+        <li>
+          <strong>Height:</strong>
+          <%= @product.height %>
+        </li>
 
-  <li>
-    <strong>Brand:</strong>
-    <%= @product.brand %>
-  </li>
+        <li>
+          <strong>Width:</strong>
+          <%= @product.width %>
+        </li>
 
-  <li>
-    <strong>Model:</strong>
-    <%= @product.model %>
-  </li>
-
-  <li>
-    <strong>Weight:</strong>
-    <%= @product.weight %>
-  </li>
-
-  <li>
-    <strong>Depht:</strong>
-    <%= @product.depht %>
-  </li>
-
-  <li>
-    <strong>Height:</strong>
-    <%= @product.height %>
-  </li>
-
-  <li>
-    <strong>Width:</strong>
-    <%= @product.width %>
-  </li>
-
-  <li>
-    <strong>Discontinued:</strong>
-    <%= @product.discontinued %>
-  </li>
-
-  <li>
-    <strong>Details:</strong>
-    <%= @product.details %>
-  </li>
-
-</ul>
-
-<span><%= live_patch "Edit", to: Routes.product_show_path(@socket, :edit, @product), class: "button" %></span>
-<span><%= live_redirect "Back", to: Routes.product_index_path(@socket, :index) %></span>
+        <li>
+          <strong>Discontinued:</strong>
+          <%= @product.discontinued %>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>

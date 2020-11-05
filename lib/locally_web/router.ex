@@ -77,7 +77,6 @@ defmodule LocallyWeb.Router do
     live "/products/new", ProductLive.Index, :new
     live "/products/:id/edit", ProductLive.Index, :edit
 
-    live "/products/:id", ProductLive.Show, :show
     live "/products/:id/show/edit", ProductLive.Show, :edit
 
     # stocks
@@ -99,6 +98,7 @@ defmodule LocallyWeb.Router do
     pipe_through [:browser]
 
     live "/", HomeLive
+    live "/products/:id", ProductLive.Show, :show
     delete "/users/log_out", UserSessionController, :delete
     get "/users/confirm", UserConfirmationController, :new
     post "/users/confirm", UserConfirmationController, :create

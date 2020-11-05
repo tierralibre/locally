@@ -2,10 +2,10 @@
     <h2>Working in favor of thriving local markets.</h2>
     <div class="grid grid-cols-6 gap-2">
         <%= for product <- @product_list do %>
-            <div  class="w-40 h-42">
+            <div  class="w-40 h-42 box-shadow shadow-sm">
                 <a href="<%=Routes.product_show_path(@socket, :show, product.id) %>">
-                    <img src="/images/generic.jpg"></img>
-                    <div><%= product.name %></div>
+                    <img src="/images/generic.jpg">
+                    <div class="text-center"><%= product.name %></div>
                 </a>
             </div>
         <% end %>
