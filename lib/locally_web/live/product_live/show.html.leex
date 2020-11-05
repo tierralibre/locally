@@ -63,10 +63,12 @@
         </thead>
         <tbody id="products">
           <%= for stock <- @product.stock do %>
+          <tr>
             <td><%= stock.from %></td>
             <td><%= stock.units %></td>
             <td><%= stock.price %></td>
             <td><a href="#buy">Buy</a>
+          </tr>
           <% end %>
         </tbody>
       </table>
