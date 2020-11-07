@@ -19,6 +19,9 @@ RUN apt-get update && apt-get install -y \
     git \
     pgxnclient
 
+# Install H3 C Library
+RUN pgxn install h3
+
 RUN mkdir -p /docker-entrypoint-initdb.d
 COPY ./initdb-postgis.sh /docker-entrypoint-initdb.d/10_postgis.sh
 COPY ./update-postgis.sh /usr/local/bin
