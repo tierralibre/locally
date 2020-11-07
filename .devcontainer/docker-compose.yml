@@ -21,7 +21,7 @@ services:
       - db
   db:
     build:
-      dockerfile: Docker-pg3 
+      dockerfile: Dockerfile-postgis12
       context: .
     container_name: vscode_remote_postgres
     restart: always
