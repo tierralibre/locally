@@ -1,11 +1,13 @@
 {
-    "name": "Phoenix + Postgres",
+    "name": "Docker Phoenix",
     "dockerComposeFile": "docker-compose.yml",
-    "service": "web",
-    "settings": {
-        "terminal.integrated.shell.linux": "/bin/bash"
-    },
+    "service": "app",
+    "workspaceFolder": "/app",
+    "appPort": 4000,
+    "shutdownAction": "stopCompose",
     "extensions": [
-        "jakebecker.elixir-ls"
+        "mjmcloug.vscode-elixir",
+        "jakebecker.elixir-ls",
+        "florinpatrascu.vscode-elixir-snippets",
     ]
 }
