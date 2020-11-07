@@ -1,5 +1,5 @@
 Postgrex.Types.define(
-  ElixirMonitoringProm.PostgresTypes,
+  Locally.PostgresTypes,
   [Geo.PostGIS.Extension] ++ Ecto.Adapters.Postgres.extensions(),
   json: Jason
 )
