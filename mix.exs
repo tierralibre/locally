@@ -52,7 +52,7 @@ defmodule Locally.MixProject do
       {:phx_gen_auth, "~> 0.5"},
       {:pbkdf2_elixir, "~> 1.0"},
       {:elixir_uuid, "~> 1.2"},
-      {:geo_postgis, "~> 3.1"}
+      {:geo_postgis,  git: "https://github.com/tierralibre/geo_postgis.git", tag: "master"}
 
     ]
   end
