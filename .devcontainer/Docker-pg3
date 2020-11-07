@@ -1,17 +1,33 @@
-FROM postgres:10
+ARG ARCH=amd64
+ARG UBUNTU=bionic
+FROM $ARCH/ubuntu:$UBUNTU
 
-LABEL maintainer="Angel Imaz <angel@libre.earth>"
+ARG ARCH
+ARG UBUNTU
+ENV DEBIAN_FRONTEND=noninteractive
+ENV ARCH=$ARCH
 
-# pgRouting
-ENV PGROUTING_MAJOR 2.5
-ENV PGROUTING_VERSION 2.5.2
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    git \
+    pgxnclient
 
-# Postgis
-ENV POSTGIS_MAJOR 2.5
-ENV POSTGIS_VERSION 2.5.1+dfsg-1.pgdg90+1
+# Setup PostgreSQL apt repository
+RUN apt-key adv --fetch-keys https://www.postgresql.org/media/keys/ACCC4CF8.asc
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ ${UBUNTU}-pgdg main" >> /etc/apt/sources.list.d/pgdg.list
+
+ARG POSTGRESQL=12
+ARG POSTGIS=3
+
+RUN apt-get update && apt-get install -y \
+    postgresql-${POSTGRESQL}-postgis-${POSTGIS}-scripts \
+    postgresql-${POSTGRESQL}-postgis-${POSTGIS} \
+    postgresql-server-dev-${POSTGRESQL} \
+    postgresql-${POSTGRESQL}
 
 # H3
-ENV H3_VERSION v3.3.0
+#ENV H3_VERSION v3.3.0
 
 # ENV PLPYTHON_VERSION 10.6-1.pgdg18.04+1
 
@@ -27,22 +43,6 @@ RUN apt-get update \
       postgresql-server-dev-$PG_MAJOR
 
 # Install H3 C Library
-# RUN easy_install pgxnclient && /usr/local/bin/pgxn install h3
-RUN git clone https://github.com/uber/h3.git h3c \
-   && cd h3c \
-   && git pull origin master --tags \
-   && git checkout "$H3_VERSION" \
-   && cmake -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX:PATH=/usr . \
-   && make install \
-   && cd .. \
-   && rm -rf h3c
+RUN pgxn install h3
+RUN pgxn load h3
 
-# Install H3 
-RUN git clone https://github.com/dlr-eoc/pgh3.git h3pg \
-   && cd h3pg \
-   && make install \
-   && cd .. \
-   && rm -rf h3pg
-
-# Clean up
-RUN rm -rf /var/lib/apt/lists/*
