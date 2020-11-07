@@ -6,6 +6,7 @@ config :locally, Locally.Repo,
   password: "postgres",
   database: "locally_dev",
   hostname: "localhost",
+  port: 15432,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
