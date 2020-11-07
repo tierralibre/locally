@@ -20,7 +20,7 @@ defmodule Locally.MixProject do
   def application do
     [
       mod: {Locally.Application, []},
-      extra_applications: [:logger, :runtime_tools, :erm]
+      extra_applications: [:logger, :runtime_tools]
     ]
   end
 

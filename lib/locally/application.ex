@@ -10,7 +10,6 @@ defmodule Locally.Application do
   def start(_type, _args) do
     children = [
       # Start the Ecto repository
-      ApplicationManager, ApplicationManager.registered_applications(),
       Locally.Repo,
       # Start the Telemetry supervisor
       LocallyWeb.Telemetry,
