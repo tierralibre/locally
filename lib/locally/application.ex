@@ -5,9 +5,12 @@ defmodule Locally.Application do
 
   use Application
 
+  alias Erm.Boundary.ApplicationManager
+
   def start(_type, _args) do
     children = [
       # Start the Ecto repository
+      ApplicationManager, ApplicationManager.registered_applications(),
       Locally.Repo,
       # Start the Telemetry supervisor
       LocallyWeb.Telemetry,
