@@ -7,6 +7,7 @@ defmodule Locally.Application do
 
   alias Erm.Boundary.ApplicationManager
 
+
   def start(_type, _args) do
     children = [
       # Start the Ecto repository
@@ -15,6 +16,7 @@ defmodule Locally.Application do
       LocallyWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: Locally.PubSub},
+      {ApplicationManager, ApplicationManager.registered_applications()},
       # Start the Endpoint (http/https)
       LocallyWeb.Endpoint
       # Start a worker by calling: Locally.Worker.start_link(arg)
