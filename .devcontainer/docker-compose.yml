@@ -16,7 +16,7 @@ services:
   db:
     build:
       dockerfile: Docker-pg3 
-      context: 
+      context: .
     restart: unless-stopped
     ports: 
       - 5432:5432
