@@ -51,7 +51,8 @@ defmodule Locally.MixProject do
       {:number, "~> 1.0"},
       {:phx_gen_auth, "~> 0.5"},
       {:pbkdf2_elixir, "~> 1.0"},
-      {:erm, path: "../erm"}
+      {:erm, git: "https://github.com/tierralibre/erm.git"}
+
     ]
   end
 
