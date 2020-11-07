@@ -51,7 +51,8 @@ defmodule Locally.MixProject do
       {:number, "~> 1.0"},
       {:phx_gen_auth, "~> 0.5"},
       {:pbkdf2_elixir, "~> 1.0"},
-      {:elixir_uuid, "~> 1.2"}
+      {:elixir_uuid, "~> 1.2"},
+      {:geo_postgis, "~> 3.1"}
 
     ]
   end
