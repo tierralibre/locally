@@ -28,5 +28,4 @@ RUN apt-get update && apt-get install -y \
 
 # Install H3 C Library
 RUN pgxn install h3
-RUN pgxn load h3
 
