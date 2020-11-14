@@ -76,4 +76,71 @@ defmodule Locally.EraTest do
       assert %Ecto.Changeset{} = Era.change_entity(entity)
     end
   end
+
+  describe "transactions" do
+    alias Locally.Era.Transaction
+
+    @valid_attrs %{content: %{}, h3index: "some h3index", name: "some name", status: "some status", type: "some type"}
+    @update_attrs %{content: %{}, h3index: "some updated h3index", name: "some updated name", status: "some updated status", type: "some updated type"}
+    @invalid_attrs %{content: nil, h3index: nil, name: nil, status: nil, type: nil}
+
+    def transaction_fixture(attrs \\ %{}) do
+      {:ok, transaction} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Era.create_transaction()
+
+      transaction
+    end
+
+    test "list_transactions/0 returns all transactions" do
+      transaction = transaction_fixture()
+      assert Era.list_transactions() == [transaction]
+    end
+
+    test "get_transaction!/1 returns the transaction with given id" do
+      transaction = transaction_fixture()
+      assert Era.get_transaction!(transaction.id) == transaction
+    end
+
+    test "create_transaction/1 with valid data creates a transaction" do
+      assert {:ok, %Transaction{} = transaction} = Era.create_transaction(@valid_attrs)
+      assert transaction.content == %{}
+      assert transaction.h3index == "some h3index"
+      assert transaction.name == "some name"
+      assert transaction.status == "some status"
+      assert transaction.type == "some type"
+    end
+
+    test "create_transaction/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Era.create_transaction(@invalid_attrs)
+    end
+
+    test "update_transaction/2 with valid data updates the transaction" do
+      transaction = transaction_fixture()
+      assert {:ok, %Transaction{} = transaction} = Era.update_transaction(transaction, @update_attrs)
+      assert transaction.content == %{}
+      assert transaction.h3index == "some updated h3index"
+      assert transaction.name == "some updated name"
+      assert transaction.status == "some updated status"
+      assert transaction.type == "some updated type"
+    end
+
+    test "update_transaction/2 with invalid data returns error changeset" do
+      transaction = transaction_fixture()
+      assert {:error, %Ecto.Changeset{}} = Era.update_transaction(transaction, @invalid_attrs)
+      assert transaction == Era.get_transaction!(transaction.id)
+    end
+
+    test "delete_transaction/1 deletes the transaction" do
+      transaction = transaction_fixture()
+      assert {:ok, %Transaction{}} = Era.delete_transaction(transaction)
+      assert_raise Ecto.NoResultsError, fn -> Era.get_transaction!(transaction.id) end
+    end
+
+    test "change_transaction/1 returns a transaction changeset" do
+      transaction = transaction_fixture()
+      assert %Ecto.Changeset{} = Era.change_transaction(transaction)
+    end
+  end
 end

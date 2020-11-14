@@ -6,9 +6,10 @@ defmodule LocallyWeb.EntityLive.Index do
 
   @impl true
   def mount(_params, %{"user_token" => user_token} = _session, socket) do
-      socket = socket
+    socket = socket
       |> assign(:entities, list_entities())
       |> assign(:user_token, user_token)
+
     {:ok, socket}
   end
 

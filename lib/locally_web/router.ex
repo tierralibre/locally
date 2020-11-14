@@ -64,6 +64,15 @@ defmodule LocallyWeb.Router do
     live "/entities/:id", EntityLive.Show, :show
     live "/entities/:id/show/edit", EntityLive.Show, :edit
 
+    # transactions
+
+    live "/transactions", TransactionLive.Index, :index
+    live "/transactions/new", TransactionLive.Index, :new
+    live "/transactions/:id/edit", TransactionLive.Index, :edit
+
+    live "/transactions/:id", TransactionLive.Show, :show
+    live "/transactions/:id/show/edit", TransactionLive.Show, :edit
+
     # store
     live "/stores", StoreLive.Index, :index
     live "/stores/new", StoreLive.Index, :new

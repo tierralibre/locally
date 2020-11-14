@@ -103,3 +103,8 @@ Locally.H3Index.h3_geo_to_h3(28.626972, -17.811667, 15)
 mix phx.gen.live Era Entity entities h3index:string name:string type:string status:string creator_id:references:users  topics:array:string content:map
 
 ```
+
+```
+mix phx.gen.live Era Transaction transactions h3index:string name:string type:string status:string creator_id:references:users content:map 
+
+```
