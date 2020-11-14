@@ -5,8 +5,11 @@ defmodule LocallyWeb.EntityLive.Index do
   alias Locally.Era.Entity
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :entities, list_entities())}
+  def mount(_params, %{"user_token" => user_token} = _session, socket) do
+      socket = socket
+      |> assign(:entities, list_entities())
+      |> assign(:user_token, user_token)
+    {:ok, socket}
   end
 
   @impl true

@@ -48,6 +48,7 @@ defmodule Locally.Accounts.UserToken do
     {:ok, query}
   end
 
+
   @doc """
   Builds a token with a hashed counter part.
 

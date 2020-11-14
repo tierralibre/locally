@@ -1,6 +1,8 @@
 defmodule Locally.EraTest do
   use Locally.DataCase
 
+  import Locally.AccountsFixtures
+
   alias Locally.Era
 
   describe "entities" do
@@ -14,11 +16,10 @@ defmodule Locally.EraTest do
     @invalid_attrs %{content: nil, h3index: nil, name: nil, status: nil, topics: nil, type: nil}
 
     def entity_fixture(attrs \\ %{}) do
+      user = user_fixture()
+      attrs = attrs |> Enum.into(@valid_attrs)
       {:ok, entity} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Era.create_entity()
-
+        Era.create_entity(user, attrs)
       entity
     end
 
@@ -33,7 +34,8 @@ defmodule Locally.EraTest do
     end
 
     test "create_entity/1 with valid data creates a entity" do
-      assert {:ok, %Entity{} = entity} = Era.create_entity(@valid_attrs)
+      user = user_fixture()
+      assert {:ok, %Entity{} = entity} = Era.create_entity(user, @valid_attrs)
       assert entity.content == %{}
       assert entity.h3index == "8f34414a64ce2c9"
       assert entity.name == "some name"
@@ -43,7 +45,7 @@ defmodule Locally.EraTest do
     end
 
     test "create_entity/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Era.create_entity(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Era.create_entity(user_fixture(), @invalid_attrs)
     end
 
     test "update_entity/2 with valid data updates the entity" do

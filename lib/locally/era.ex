@@ -37,7 +37,8 @@ defmodule Locally.Era do
   """
   def get_entity!(id), do: Repo.get!(Entity, id)
 
-  @doc """
+
+    @doc """
   Creates a entity.
 
   ## Examples
@@ -49,11 +50,13 @@ defmodule Locally.Era do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_entity(attrs \\ %{}) do
+  def create_entity(creator, attrs \\ %{}) do
     %Entity{}
     |> Entity.changeset(attrs)
+    |> Ecto.Changeset.put_change(:creator_id, creator.id)
     |> Repo.insert()
   end
+
 
   @doc """
   Updates a entity.

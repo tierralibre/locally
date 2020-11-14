@@ -24,10 +24,14 @@ defmodule LocallyWeb.EntityLive.FormComponent do
   end
 
   def handle_event("save", %{"entity" => entity_params}, socket) do
+    IO.puts "handle_event save"
+    IO.inspect socket
     save_entity(socket, socket.assigns.action, entity_params)
   end
 
   defp save_entity(socket, :edit, entity_params) do
+    IO.puts "save_entity :edit"
+    IO.inspect socket
     case Era.update_entity(socket.assigns.entity, entity_params) do
       {:ok, _entity} ->
         {:noreply,
@@ -41,7 +45,11 @@ defmodule LocallyWeb.EntityLive.FormComponent do
   end
 
   defp save_entity(socket, :new, entity_params) do
-    case Era.create_entity(entity_params) do
+    IO.puts "save_entity :new"
+
+    current_user = Locally.Accounts.get_user_by_session_token(socket.assigns.user_token)
+    IO.inspect current_user
+    case Era.create_entity(current_user, entity_params) do
       {:ok, _entity} ->
         {:noreply,
          socket
