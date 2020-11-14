@@ -6,7 +6,7 @@ defmodule Locally.Era.Transaction do
   @foreign_key_type :binary_id
   schema "transactions" do
     field :content, :map
-    field :h3index, :string
+    field :h3index, H3.PostGIS.H3Index
     field :name, :string
     field :status, :string
     field :type, :string

@@ -5,8 +5,8 @@ defmodule LocallyWeb.EntityLiveTest do
 
   alias Locally.Era
 
-  @create_attrs %{content: %{}, h3index: "some h3index", name: "some name", status: "some status", topics: [], type: "some type"}
-  @update_attrs %{content: %{}, h3index: "some updated h3index", name: "some updated name", status: "some updated status", topics: [], type: "some updated type"}
+  @create_attrs %{content: %{}, h3index: h3index_create , name: "some name", status: "some status", topics: [], type: "some type"}
+  @update_attrs %{content: %{}, h3index: h3index_update, name: "some updated name", status: "some updated status", topics: [], type: "some updated type"}
   @invalid_attrs %{content: nil, h3index: nil, name: nil, status: nil, topics: nil, type: nil}
 
   defp fixture(:entity) do
@@ -48,7 +48,7 @@ defmodule LocallyWeb.EntityLiveTest do
         |> follow_redirect(conn, Routes.entity_index_path(conn, :index))
 
       assert html =~ "Entity created successfully"
-      assert html =~ "some h3index"
+      assert html =~ h3index_create
     end
 
     test "updates entity in listing", %{conn: conn, entity: entity} do
@@ -70,7 +70,7 @@ defmodule LocallyWeb.EntityLiveTest do
         |> follow_redirect(conn, Routes.entity_index_path(conn, :index))
 
       assert html =~ "Entity updated successfully"
-      assert html =~ "some updated h3index"
+      assert html =~ h3index_update
     end
 
     test "deletes entity in listing", %{conn: conn, entity: entity} do
@@ -110,7 +110,7 @@ defmodule LocallyWeb.EntityLiveTest do
         |> follow_redirect(conn, Routes.entity_show_path(conn, :show, entity))
 
       assert html =~ "Entity updated successfully"
-      assert html =~ "some updated h3index"
+      assert html =~ h3index_update
     end
   end
 end

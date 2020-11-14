@@ -5,8 +5,8 @@ defmodule LocallyWeb.TransactionLiveTest do
 
   alias Locally.Era
 
-  @create_attrs %{content: %{}, h3index: "some h3index", name: "some name", status: "some status", type: "some type"}
-  @update_attrs %{content: %{}, h3index: "some updated h3index", name: "some updated name", status: "some updated status", type: "some updated type"}
+  @create_attrs %{content: %{}, h3index: h3index_create , name: "some name", status: "some status", type: "some type"}
+  @update_attrs %{content: %{}, h3index: h3index_update, name: "some updated name", status: "some updated status", type: "some updated type"}
   @invalid_attrs %{content: nil, h3index: nil, name: nil, status: nil, type: nil}
 
   defp fixture(:transaction) do
@@ -48,7 +48,7 @@ defmodule LocallyWeb.TransactionLiveTest do
         |> follow_redirect(conn, Routes.transaction_index_path(conn, :index))
 
       assert html =~ "Transaction created successfully"
-      assert html =~ "some h3index"
+      assert html =~ h3index_create
     end
 
     test "updates transaction in listing", %{conn: conn, transaction: transaction} do
@@ -70,7 +70,7 @@ defmodule LocallyWeb.TransactionLiveTest do
         |> follow_redirect(conn, Routes.transaction_index_path(conn, :index))
 
       assert html =~ "Transaction updated successfully"
-      assert html =~ "some updated h3index"
+      assert html =~ h3index_update
     end
 
     test "deletes transaction in listing", %{conn: conn, transaction: transaction} do
@@ -110,7 +110,7 @@ defmodule LocallyWeb.TransactionLiveTest do
         |> follow_redirect(conn, Routes.transaction_show_path(conn, :show, transaction))
 
       assert html =~ "Transaction updated successfully"
-      assert html =~ "some updated h3index"
+      assert html =~ h3index_update
     end
   end
 end
