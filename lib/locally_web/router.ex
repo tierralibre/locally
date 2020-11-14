@@ -56,6 +56,14 @@ defmodule LocallyWeb.Router do
   scope "/", LocallyWeb do
     pipe_through [:browser, :require_authenticated_user]
 
+    # entities
+    live "/entities", EntityLive.Index, :index
+    live "/entities/new", EntityLive.Index, :new
+    live "/entities/:id/edit", EntityLive.Index, :edit
+
+    live "/entities/:id", EntityLive.Show, :show
+    live "/entities/:id/show/edit", EntityLive.Show, :edit
+
     # store
     live "/stores", StoreLive.Index, :index
     live "/stores/new", StoreLive.Index, :new

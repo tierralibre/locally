@@ -52,7 +52,8 @@ defmodule Locally.MixProject do
       {:phx_gen_auth, "~> 0.5"},
       {:pbkdf2_elixir, "~> 1.0"},
       {:elixir_uuid, "~> 1.2"},
-      {:geo_postgis,  git: "https://github.com/tierralibre/geo_postgis.git", tag: "master"}
+      {:geo_postgis,  git: "https://github.com/tierralibre/geo_postgis.git", tag: "master"},
+      {:h3, git: "https://github.com/helium/erlang-h3.git"}
 
     ]
   end

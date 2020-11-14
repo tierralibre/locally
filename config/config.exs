@@ -11,6 +11,12 @@ config :locally,
   ecto_repos: [Locally.Repo],
   generators: [binary_id: true]
 
+config :locally, Locally.Repo,
+  #migration_primary_key: [name: :uuid, type: :binary_id],
+  #migration_primary_key: false,
+  #migration_foreign_key: [column: :uuid, type: :binary_id],
+  migration_timestamps: [type: :utc_datetime]
+
 # Configures the endpoint
 config :locally, LocallyWeb.Endpoint,
   url: [host: "localhost"],
@@ -29,6 +35,8 @@ config :phoenix, :json_library, Jason
 
 config :geo_postgis,
   json_library: Jason # If you want to set your JSON module
+
+
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
