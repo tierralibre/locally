@@ -48,7 +48,6 @@ defmodule LocallyWeb.EntityLive.FormComponent do
     IO.puts "save_entity :new"
 
     current_user = Locally.Accounts.get_user_by_session_token(socket.assigns.user_token)
-    IO.inspect current_user
     case Era.create_entity(current_user, entity_params) do
       {:ok, _entity} ->
         {:noreply,

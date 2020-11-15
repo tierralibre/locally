@@ -21,6 +21,6 @@ defmodule Locally.Era.Transaction do
   def changeset(transaction, attrs) do
     transaction
     |> cast(attrs, [:h3index, :name, :type, :status, :content])
-    |> validate_required([:h3index, :name, :type, :status, :content])
+    |> validate_required([:h3index, :name, :type, :status])
   end
 end
