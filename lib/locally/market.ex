@@ -22,7 +22,7 @@ defmodule Locally.Market do
 
   """
   def list_stores(fields \\ []) do
-    ApplicationManager.list_entities(@app_name, :store, fields)
+    ApplicationManager.list_entities(@app_name, "store", fields)
     |> Enum.map(&Store.to_schema(&1))
   end
 
@@ -138,7 +138,7 @@ defmodule Locally.Market do
 
   """
   def list_product_categories(fields \\ []) do
-    ApplicationManager.list_entities(@app_name, :product_category, fields)
+    ApplicationManager.list_entities(@app_name, "product_category", fields)
     |> Enum.map(&ProductCategory.to_schema(&1))
   end
 
@@ -275,7 +275,7 @@ defmodule Locally.Market do
 
   """
   def list_products(fields \\ []) do
-    ApplicationManager.list_entities(@app_name, :product, fields)
+    ApplicationManager.list_entities(@app_name, "product", fields)
     |> Enum.map(&Product.to_schema(&1))
   end
 
@@ -311,9 +311,9 @@ defmodule Locally.Market do
         categories =
           ApplicationManager.list_entities_by_relation(
             @app_name,
-            :belongs_category,
+            "belongs_category",
             :to,
-            entity.uuid
+            entity.id
           )
           |> Enum.map(fn entity -> entity |> ProductCategory.to_schema() |> Map.from_struct() end)
           |> Jason.encode!()
@@ -356,7 +356,7 @@ defmodule Locally.Market do
     Enum.filter(categories, fn cat -> cat["deleted"] end)
     |> Enum.each(fn cat ->
       ApplicationManager.run_action(@app_name, :remove_product_from_category, %{
-        from: entity.uuid,
+        from: entity.id,
         to: cat["id"]
       })
     end)
@@ -364,7 +364,7 @@ defmodule Locally.Market do
     Enum.filter(categories, fn cat -> !cat["deleted"] end)
     |> Enum.each(fn cat ->
       ApplicationManager.run_action(@app_name, :add_product_to_category, %{
-        from: entity.uuid,
+        from: entity.id,
         to: cat["id"]
       })
     end)
@@ -453,7 +453,7 @@ defmodule Locally.Market do
 
   """
   def list_stocks(%{} = properties \\ %{}) do
-    ApplicationManager.list_relations(@app_name, :stock, properties)
+    ApplicationManager.list_relations(@app_name, "stock", properties)
     |> Enum.map(&Stock.to_schema(&1))
   end
 
@@ -494,7 +494,7 @@ defmodule Locally.Market do
 
   """
   def get_stock!([from, to]) do
-    case ApplicationManager.get_relation(@app_name, from, to) do
+    case ApplicationManager.get_relation(@app_name, "stock", from, to) do
       nil ->
         raise("No results")
 

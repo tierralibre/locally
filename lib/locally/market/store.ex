@@ -27,7 +27,7 @@ defmodule Locally.Market.Store do
     |> apply_changes()
   end
 
-  def to_schema(%Erm.Core.Entity{type: :store} = entity) do
-    to_schema(entity.data, entity.uuid)
+  def to_schema(%Erm.Core.Entity{type: "store"} = entity) do
+    to_schema(entity.data, entity.id)
   end
 end

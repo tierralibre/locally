@@ -36,7 +36,7 @@ defmodule Locally.Market.Stock do
     |> apply_changes()
   end
 
-  def to_schema(%Erm.Core.Relation{type: :stock} = relation) do
+  def to_schema(%Erm.Core.Relation{type: "stock"} = relation) do
     to_schema(relation.data, relation.from, relation.to)
   end
 end

@@ -11,6 +11,10 @@ config :locally,
   ecto_repos: [Locally.Repo],
   generators: [binary_id: true]
 
+config :erm,
+  ecto_repos: [Erm.Repo],
+  generators: [binary_id: true]
+
 # Configures the endpoint
 config :locally, LocallyWeb.Endpoint,
   url: [host: "localhost"],

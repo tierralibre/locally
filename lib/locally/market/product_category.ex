@@ -25,7 +25,7 @@ defmodule Locally.Market.ProductCategory do
     |> apply_changes()
   end
 
-  def to_schema(%Erm.Core.Entity{type: :product_category} = entity) do
-    to_schema(entity.data, entity.uuid)
+  def to_schema(%Erm.Core.Entity{type: "product_category"} = entity) do
+    to_schema(entity.data, entity.id)
   end
 end
